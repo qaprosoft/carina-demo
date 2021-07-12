@@ -15,13 +15,6 @@
  */
 package com.qaprosoft.carina.demo;
 
-import java.lang.invoke.MethodHandles;
-
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.Test;
-
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.IAbstractTest;
 import com.qaprosoft.carina.core.foundation.api.http.HttpResponseStatusType;
@@ -31,6 +24,13 @@ import com.qaprosoft.carina.core.foundation.utils.tag.TestPriority;
 import com.qaprosoft.carina.demo.api.DeleteUserMethod;
 import com.qaprosoft.carina.demo.api.GetUserMethods;
 import com.qaprosoft.carina.demo.api.PostUserMethod;
+import org.apache.commons.text.RandomStringGenerator;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.Test;
+
+import java.lang.invoke.MethodHandles;
 
 /**
  * This sample shows how create REST API tests.
@@ -50,6 +50,18 @@ public class APISampleTest implements IAbstractTest {
         api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
         api.callAPI();
         api.validateResponse();
+        printLargeText();
+    }
+
+    private void printLargeText() {
+        int chars = 0;
+        int limit = 1024 * 1024 * 1024;
+        RandomStringGenerator randomStringGenerator = new RandomStringGenerator.Builder().build();
+        while (chars < limit) {
+            String string = randomStringGenerator.generate(100);
+            LOGGER.info(string);
+            chars += string.length();
+        }
     }
 
     @Test()
